@@ -78,9 +78,9 @@ $(function () {
   // Q1-9のリスト要素をクリックしたときに実行する処理
   $("#q9 li").click(function () {
     // クリックした要素が何番目にあるのかを取得して変数に設定する
-    var a = $(this).index();
+    let num = $(this).index();
     // 変数をアラート表示する
-    alert(a);
+    alert(num);
   });
 });
 
@@ -88,11 +88,11 @@ $(function () {
   // Q1-10のボタンをクリックしたときに実行する処理
   $("#q10 li").click(function () {
     // クリックした要素が何番目にあるのかを取得して変数に設定する
-    var a = $(this).index();
+    let num = $(this).index();
     // 変更箇所をコンソールに表示
-    console.log($("#q11 li").eq(a))
+    console.log($("#q11 li").eq(num))
     // Q1-11のボタンにclass属性を追加する 
-    $("#q11 li").eq(a).addClass("large-text")
+    $("#q11 li").eq(num).addClass("large-text")
   });
 });
 
