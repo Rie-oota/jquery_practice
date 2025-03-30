@@ -5,20 +5,20 @@ $(function(){
   $(".search-btn").on("click",function(){
     // 検索ワードに入力された値を代入する
     const searchWord = $("#search-input").val();
-    // 検索ワードに入力された値をコンソールに表示
-    console.log(searchWord);
-    // 指定したURLから検索ワードの情報を取得
+    // 定数としてURLやパラメータを分けて定義
+    const BASE_URL = "https://ci.nii.ac.jp/books/opensearch/search";
+    const FORMAT = "json";
+    const COUNT = 20;
+    // クエリパラメータを構築　指定したURLから検索ワードの情報を取得
     const settings = {
-    url: "https://ci.nii.ac.jp/books/opensearch/search?title=" + searchWord + "&format=json&p=" + pageCount + "&count=20",
+    url: `${BASE_URL}?title=${encodeURIComponent(searchWord)}&format=${FORMAT}&p=${pageCount}&count=${COUNT}`,
     method: "GET"
-  }
+    };
 
   // ajaxが正常に実行されたかどうかで処理を分ける
   $.ajax(settings).done(function (response) {
     // 取得した情報をresultに代入する
     const result = response['@graph'];
-    // コンソールにresultを表示する
-    console.log(result);
     // 画面にresultを表示する
     displayResult(result)
     // 情報が取得されなかった場合はエラーを実行する
@@ -39,17 +39,15 @@ $(function(){
       // 検索値が見つかった場合は、eachで全データ出力するまで繰り返し処理
       $.each(result[0].items, function (getindex, getVal) {
         // タイトル(getVal.title)の値が存在しているかを確認し、ある場合は値を表示、ない場合はテキストを定数へ代入
-        const getTitle = getVal.title ? getVal.title : "タイトル不明";
+        const getTitle = $("<p>").html("タイトル：" + (getVal.title ? getVal.title : "タイトル不明")).prop("outerHTML");
         // 作者(getVal["dc:creator"])の値が存在しているかを確認し、ある場合は値を表示、ない場合はテキストを定数へ代入
-        const getCreator = getVal["dc:creator"] ? getVal["dc:creator"] : "作者不明";
+        const getCreator = $("<p>").html("作者：" + (getVal["dc:creator"] ? getVal["dc:creator"] : "作者不明")).prop("outerHTML");
         // 出版社(getVal["dc:publisher"])の値が存在しているかを確認し、ある場合は値を表示、ない場合はテキストを定数へ代入
-        const getPublisher = getVal["dc:publisher"] ? getVal["dc:publisher"][0] : "出版社不明";
+        const getPublisher = $("<p>").html("出版社：" + (getVal["dc:publisher"] ? getVal["dc:publisher"][0] : "出版社不明")).prop("outerHTML");
         // リンク(getVal.link["@id"])の値が存在しているかを確認し、ある場合は値を表示、ない場合はテキストを定数へ代入
-        const getLink = getVal.link["@id"]
+        const getLink = $("<a>").attr("href",getVal.link["@id"]).attr("target","_blank").text("書籍情報").prop("outerHTML");
         // 検索値を表示する
-        const getResult = '<li class="lists-item"><div class="list-inner"><p>タイトル：' + getTitle
-        + "</p><p>作者：" + getCreator + "</p><p>出版社："
-        + getPublisher + '</p><a href="' + getLink + '" target="_blank">書籍情報</a></div></li>';
+        const getResult = `<li class="lists-item"><div class="list-inner">${getTitle}${getCreator}${getPublisher}${getLink}</div></li>`;
         // .listsの子要素の先頭にresultを追加
         $(".lists").prepend(getResult);
       });
