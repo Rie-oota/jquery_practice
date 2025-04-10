@@ -1,10 +1,18 @@
 $(function(){
   // ページ数を指定
-  let pageCount = 1
+  let pageCount = 1;
+  // 前回の検索ワードを保存する変数
+  let previousSearchWord = "";
   // 検索ボタンがクリックされたときに実行する処理
   $(".search-btn").on("click",function(){
     // 検索ワードに入力された値を代入する
     const searchWord = $("#search-input").val();
+    // 検索ワードが前回と異なる場合、ページ数をリセット
+    if (searchWord !== previousSearchWord) {
+    pageCount = 1;
+    } else {
+    pageCount++;
+    }
     // 定数としてURLやパラメータを分けて定義
     const BASE_URL = "https://ci.nii.ac.jp/books/opensearch/search";
     const FORMAT = "json";
