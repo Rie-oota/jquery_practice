@@ -7,6 +7,8 @@ $(function(){
   $(".search-btn").on("click",function(){
     // 検索ワードに入力された値を代入する
     const searchWord = $("#search-input").val();
+    // 前回の検索ワードに再代入する
+    previousSearchWord = searchWord;
     // 検索ワードが前回と異なる場合、ページ数をリセット
     if (searchWord !== previousSearchWord) {
     pageCount = 1;
