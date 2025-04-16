@@ -112,5 +112,7 @@ $(function(){
     $(".message").remove();
     // 検索ワードをリセットする
     $("#search-input").val("");
+    // エラーメッセージをリセットする
+    $(".lists").before("");
   });
 });
