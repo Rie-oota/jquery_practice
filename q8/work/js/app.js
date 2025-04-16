@@ -5,7 +5,7 @@ const COUNT = 20;
 
 $(function(){
   // ページ数を指定
-  let pageCount = 1;
+  let pageCount = 0;
   // 前回の検索ワードを保存する変数
   let previousSearchWord = "";
   // 検索ボタンがクリックされたときに実行する処理
@@ -43,10 +43,6 @@ $(function(){
 
     // ajaxが正常に実行されたときの処理
     function displayResult(result){
-      // 前回の検索結果をリセットする
-      $(".lists").empty();
-      // 前回表示したメッセージをリセットする
-      $(".message").remove();
       // 検索値が見つかったときに実行する処理
       if (result[0].items?.length > 0) {
         // 引数のgetindexは配列のindex。getValはvalue。getValのみを使えば検索一覧を作成できる
@@ -107,7 +103,7 @@ $(function(){
   // リセットボタンがクリックされたときに実行する処理
   $(".reset-btn").on("click",function(){
     // ページ数をリセットする
-    pageCount = 1;
+    pageCount = 0;
     // 前回の検索ワードをリセットする
     previousSearchWord = "";
     // 前回の検索結果をリセットする
