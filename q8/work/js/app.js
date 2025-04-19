@@ -45,6 +45,8 @@ $(function(){
     function displayResult(result){
       // 検索値が見つかったときに実行する処理
       if (result[0].items?.length > 0) {
+        // 前回表示したメッセージをリセットする
+        $(".message").remove();
         // 引数のgetindexは配列のindex。getValはvalue。getValのみを使えば検索一覧を作成できる
         // 検索値が見つかった場合は、eachで全データ出力するまで繰り返し処理
         $.each(result[0].items, function (getindex, getVal) {
@@ -65,6 +67,8 @@ $(function(){
       else{
         // .listsの子要素のみ削除(.listsの中身を空にする)
         $(".lists").empty();
+        // 前回表示したメッセージをリセットする
+        $(".message").remove();
         // .listsの前にDOM追加
         $(".lists").before('<div class="message">検索結果が見つかりませんでした。<br>別のキーワードで検索して下さい。</div>');
       }
@@ -79,21 +83,21 @@ $(function(){
       // ステータスコードが0のときに実行する処理
       if(err.status === 0){
         // 検索結果の前にメッセージを表示する
-        $(".lists").before('<div class="message">正常に接続できませんでした。<br>インターネットに接続されていません。</div>');
+        $(".lists").before('<div class="message">正常に接続できませんでした。<br>Wi-Fiやモバイル回線が安定しているか確認し、インターネットに再接続してください。</div>');
       }
       // ステータスコードが400のときに実行する処理
       else if(err.status === 400){
         // 検索結果の前にメッセージを表示する
-        $(".lists").before('<div class="message">検索キーワードが誤っています。</div>');
+        $(".lists").before('<div class="message">HTTP ERROR 400<br>エラーが発生しています。<br>ブラウザのキャッシュまたはCookieを削除してください。</div>');
       }
       // ステータスコードが500のときに実行する処理
       else if(err.status === 500){
         // 検索結果の前にメッセージを表示する
-        $(".lists").before('<div class="message">サーバー側に問題があります。</div>');
+        $(".lists").before('<div class="message">500 Internal Server Error<br>サーバー側に問題があります。<br>サーバーの障害情報を確認してください。</div>');
       }
       // ステータスコードが一致しないときに実行する処理
       else {
-        $(".lists").before('<div class="message">通信できませんでした。</div>');
+        $(".lists").before('<div class="message">通信できませんでした。<br>時間を置いてからアクセスしてください。</div>');
       }
     }
   });
@@ -112,7 +116,5 @@ $(function(){
     $(".message").remove();
     // 検索ワードをリセットする
     $("#search-input").val("");
-    // エラーメッセージをリセットする
-    $(".lists").before("");
   });
 });
