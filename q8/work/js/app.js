@@ -101,10 +101,6 @@ $(function(){
       }
     }
   });
-});
-
-$(function(){
-  // リセットボタンがクリックされたときに実行する処理
   $(".reset-btn").on("click",function(){
     // ページ数をリセットする
     pageCount = 0;
